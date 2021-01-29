@@ -2,7 +2,7 @@
     "routes": [
       {
         "method": "PUT",
-        "path": "/me",
+        "path": "/users/me",
         "handler": "User.updateMe",
         "config": {
           "policies": []
