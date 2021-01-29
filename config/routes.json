@@ -2,7 +2,7 @@
     "routes": [
       {
         "method": "PUT",
-        "path": "/users/me",
+        "path": "/grampians-user/me",
         "handler": "User.updateMe",
         "config": {
           "policies": []
