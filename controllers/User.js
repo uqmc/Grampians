@@ -15,7 +15,6 @@ module.exports = {
    * @return {Object}
    */
   async updateMe(ctx) {
-    const { id } = ctx.params;
     const { email, username, password } = ctx.request.body;
     
     const advancedConfigs = await strapi
@@ -27,14 +26,8 @@ module.exports = {
       })
       .get();
 
-    const user = await strapi.plugins['users-permissions'].services.user.fetch({
-      id,
-    });
-    
-    // Validate user requesting is same as user to update
-    if (ctx.state.user.id != id) {
-      return ctx.badRequest(null, [{ messages: [{ id: 'You may only update yourself.' }] }]);
-    }
+    const user = ctx.state.user;
+    const id = user.id;
 
     if (_.has(ctx.request.body, 'email') && !email) {
       return ctx.badRequest('email.notNull');
