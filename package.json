@@ -1,0 +1,22 @@
+{
+  "name": "strapi-plugin-grampians",
+  "version": "1.0.0",
+  "description": "UQMC custom Strapi plugin",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uqmc/grampians.git"
+  },
+  "author": "University of Queensland Mountain Club Inc.",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/uqmc/grampians/issues"
+  },
+  "homepage": "https://github.com/uqmc/grampians#README.md",
+  "dependencies": {
+    "lodash": "^4.17.20",
+    "strapi-utils": "^3.4.5"
+  }
+}
