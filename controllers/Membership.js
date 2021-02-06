@@ -20,9 +20,19 @@ module.exports = {
     const { membershipID, token } = ctx.request.body;
 
     //Get membership details from CMS
+    if (!membershipID.match(/^[0-9a-fA-F]{24}$/)) {
+      return ctx.notFound();
+    }
+
+    const result = await strapi.query('membership').findOne({ id: membershipID });
+    const membership = _.first(result) || null;
+
+    if (membership == null) {
+      return ctx.notFound();
+    }
 
     const charge = await stripe.charges.create({
-      amount: 10, //TODO: Get from CMS
+      amount: membership.price,
       currency: "aud",
       description: `Membership Payment`, //TODO: More details
       source: token
