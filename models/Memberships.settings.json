@@ -1,0 +1,29 @@
+{
+  "connection": "default",
+  "collectionName": "",
+  "info": {
+    "name": "membership",
+    "description": ""
+  },
+  "options": {
+    "timestamps": false,
+    "privateAttributes": ["id"]
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "dayLength": {
+      "type": "integer",
+      "requied": true,
+      "min": 0
+    },
+    "price": {
+      "type": "decimal",
+      "requied": true,
+      "min": 0
+    }
+  }
+}
