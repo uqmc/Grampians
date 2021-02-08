@@ -9,6 +9,22 @@
         }
       },
       {
+        "method": "GET",
+        "path": "/stripe",
+        "handler": "Stripe.get",
+        "config": {
+          "policies": []
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/stripe",
+        "handler": "Stripe.update",
+        "config": {
+          "policies": []
+        }
+      },
+      {
         "method": "PUT",
         "path": "/memberships/pay",
         "handler": "Membership.pay",
