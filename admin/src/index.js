@@ -1,9 +1,9 @@
 import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
-import App from './containers/App';
 import Initializer from './containers/Initializer';
 import lifecycles from './lifecycles';
 import Settings from './containers/Settings';
+import App from './containers/App'
 
 export default strapi => {
   const pluginDescription = "";
@@ -36,9 +36,9 @@ export default strapi => {
     isRequired: false,
     layout: null,
     lifecycles,
-    mainComponent: App,
     name,
     preventComponentRendering: false,
+    mainComponent: App,
     settings: {
       mainComponent: Settings,
       menuSection
