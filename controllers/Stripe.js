@@ -15,7 +15,7 @@ module.exports = {
       name: 'grampians',
     });
 
-    const stripeApiKey = await pluginStore.get({ key: 'stripeApiKey' }) || "";
+    const stripeApiKey = await pluginStore.get({ key: 'stripeApiKey' });
 
     ctx.send({ stripeApiKey: stripeApiKey });
   },
