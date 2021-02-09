@@ -3,6 +3,10 @@
 const _ = require('lodash');
 const { sanitizeEntity } = require('strapi-utils');
 
+const parse = require("date-fns/parse");
+const add = require("date-fns/add");
+const isFuture = require("date-fns/isFuture");
+
 const sanitizeUser = user =>
   sanitizeEntity(user, {
     model: strapi.query('user', 'users-permissions').model,
@@ -35,7 +39,7 @@ module.exports = {
       name: 'grampians',
     });
 
-    const stripeApiKey= await pluginStore.get({ key: "stripeApiKey" });
+    const stripeApiKey = await pluginStore.get({ key: "stripeApiKey" });
 
     const stripe = require("stripe")(stripeApiKey);
 
@@ -43,23 +47,44 @@ module.exports = {
       return ctx.badRequest("stripe.invalidKey");
     }
 
-    return stripe;
-    /*
     const charge = await stripe.charges.create({
-      amount: membership.price,
+      amount: membership.price * 100,
       currency: "aud",
       description: `Membership Payment`, //TODO: More details
       source: token
+    }).catch(error => {
+      //TODO: Proccess error?
+      return error;
     });
 
-    //TODO: Check if charge was successful?
+    if (charge.status != "succeeded") {
+      //TODO: Format error?
+      return charge;
+    }
 
     const user = ctx.state.user;
-    const id = user.id;
+    const { id, currentMembershipLength } = user;
 
-    //TODO: Update user membership details if successful
+    //TODO: Lifetime membership override?
 
-    //TODO: Return success
-    */
+    const currentMembershipEndDate = add(parse(user.currentMembershipStartDate, "yyyy-MM-dd", new Date()), { days: currentMembershipLength });
+
+    let updateData = {}
+
+    //TODO: Clean this up.
+    if (isFuture(currentMembershipEndDate)) {
+      updateData = {
+        currentMembershipLength: currentMembershipLength + membership.dayLength
+      }
+    } else {
+      updateData = {
+        currentMembershipStartDate: new Date(),
+        currentMembershipLength: membership.dayLength
+      }
+    }
+
+    const data = await strapi.plugins['users-permissions'].services.user.edit({ id }, updateData);
+
+    ctx.send({ ok: true });
   },
 };
