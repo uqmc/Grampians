@@ -37,13 +37,13 @@ module.exports = {
 
     const stripeApiKey= await pluginStore.get({ key: "stripeApiKey" });
 
-    const stripe = require("stripe")(stripApiKey);
+    const stripe = require("stripe")(stripeApiKey);
 
     if (!stripe) {
       return ctx.badRequest("stripe.invalidKey");
     }
 
-    return membership;
+    return stripe;
     /*
     const charge = await stripe.charges.create({
       amount: membership.price,
