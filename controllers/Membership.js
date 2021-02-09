@@ -8,10 +8,13 @@ const sanitizeUser = user =>
     model: strapi.query('user', 'users-permissions').model,
   });
 
-//const stripe = require("stripe")(""); //TODO: Get api key from config?
-
 module.exports = {
   
+  async get(ctx) {
+    const memberships = await strapi.query("membership", "grampians").find({}, []);
+    return memberships; 
+  },
+
   /**
    * Process Membership Payments
    * @return {Object}
@@ -20,14 +23,27 @@ module.exports = {
     const { membershipID, token } = ctx.request.body;
 
     //Get membership detailsfrom CMS
-    const membership = await strapi.query('membership').findOne({ id: membershipID });
+    const membership = await strapi.query("membership", "grampians").findOne({ id: membershipID });
 
     if (membership == null) {
-      return ctx.badRequest('membership.notFound');
+      return ctx.badRequest("membership.notFound");
+    }
+
+    const pluginStore = strapi.store({
+      environment: "", 
+      type: 'plugin',
+      name: 'grampians',
+    });
+
+    const stripeApiKey= await pluginStore.get({ key: "stripeApiKey" });
+
+    const stripe = require("stripe")(stripApiKey);
+
+    if (!stripe) {
+      return ctx.badRequest("stripe.invalidKey");
     }
 
     return membership;
-
     /*
     const charge = await stripe.charges.create({
       amount: membership.price,
