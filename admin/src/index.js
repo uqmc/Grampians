@@ -4,6 +4,7 @@ import Initializer from './containers/Initializer';
 import lifecycles from './lifecycles';
 import Settings from './containers/Settings';
 import App from './containers/App'
+import pluginPermissions from './permissions';
 
 export default strapi => {
   const pluginDescription = "";
@@ -21,6 +22,7 @@ export default strapi => {
         title: 'Strip Settings',
         to: `${strapi.settingsBaseURL}/${pluginId}/stripe`,
         name: 'stripe',
+        permissions: pluginPermissions.readStripeSettings
       },
     ],
   };;

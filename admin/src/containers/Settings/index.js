@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { Header } from '@buffetjs/custom';
 import pluginId from '../../pluginId';
-import { SettingsPageTitle, FormBloc, SizedInput, request } from 'strapi-helper-plugin';
-
+import { CheckPagePermissions, SettingsPageTitle, FormBloc, SizedInput, request } from 'strapi-helper-plugin';
+import pluginPermissions from '../../permissions';
 //TODO: This whole page could use some improvements, but as an MVP it works.
 //Based on: https://github.com/strapi/strapi/blob/master/packages/strapi-plugin-users-permissions/admin/src/containers/AdvancedSettings/index.js
 const StripePage = () => {
@@ -47,8 +47,9 @@ const StripePage = () => {
     ];
   }, []);
 
+  //TODO: Implement update setting
   return (
-    <>
+    <CheckPagePermissions permissions={pluginPermissions.readStripeSettings}>
       <SettingsPageTitle name="Stripe Settings" />
       <div>
         <form onSubmit={handleSubmit}>
@@ -65,7 +66,7 @@ const StripePage = () => {
           </FormBloc>
         </form>
       </div>
-    </>
+    </CheckPagePermissions>
   )
 };
 
