@@ -30,7 +30,7 @@ module.exports = {
     const membership = await strapi.query("membership", "grampians").findOne({ id: membershipID });
 
     if (membership == null) {
-      return ctx.badRequest("membership.notFound");
+      return ctx.badRequest("Invalid Membership Selected");
     }
 
     //Get Stripe Secret Key from plugin settings
@@ -45,7 +45,7 @@ module.exports = {
     const stripe = require("stripe")(stripeApiKey);
 
     if (!stripe) {
-      return ctx.badRequest("stripe.invalidKey");
+      return ctx.badRequest("An error has occured, please contact a system administrator.");
     }
 
     //Get user from request
