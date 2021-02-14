@@ -7,7 +7,6 @@
   },
   "options": {
     "timestamps": true,
-    "privateAttributes": [],
     "populateCreatorFields": false
   },
   "attributes": {
@@ -24,7 +23,8 @@
     "receipt": {
       "type": "string",
       "required": true,
-      "unique": true
+      "unique": true,
+      "configurable": false
     }
   }
 }
