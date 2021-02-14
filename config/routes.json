@@ -13,7 +13,9 @@
         "path": "/stripe",
         "handler": "Stripe.get",
         "config": {
-          "policies": []
+          "policies": [
+            ["admin::hasPermissions", ["plugins::grampians.stripe.read"]]
+          ]
         }
       },
       {
@@ -21,7 +23,9 @@
         "path": "/stripe",
         "handler": "Stripe.update",
         "config": {
-          "policies": []
+          "policies": [
+            ["admin::hasPermissions", ["plugins::grampians.stripe.update"]]
+          ]
         }
       },
       {
