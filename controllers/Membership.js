@@ -67,6 +67,12 @@ module.exports = {
 
     const { id, currentMembershipLength } = user;
 
+    strapi.query("membershipLog", "grampians").create({
+      user: id,
+      membership: membershipID,
+      receipt: charge.receipt_url
+    });
+
     //TODO: Lifetime membership override?
 
     const currentMembershipEndDate = add(parse(user.currentMembershipStartDate, "yyyy-MM-dd", new Date()), { days: currentMembershipLength });
