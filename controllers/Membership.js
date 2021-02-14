@@ -26,43 +26,44 @@ module.exports = {
   async pay(ctx) {
     const { membershipID, token } = ctx.request.body;
 
-    //Get membership detailsfrom CMS
+    //Get membership details from CMS
     const membership = await strapi.query("membership", "grampians").findOne({ id: membershipID });
 
     if (membership == null) {
       return ctx.badRequest("membership.notFound");
     }
 
+    //Get Stripe Secret Key from plugin settings
     const pluginStore = strapi.store({
       environment: "", 
       type: 'plugin',
       name: 'grampians',
     });
-
     const stripeApiKey = await pluginStore.get({ key: "stripeApiKey" });
 
+    //Create Stripe Object
     const stripe = require("stripe")(stripeApiKey);
 
     if (!stripe) {
       return ctx.badRequest("stripe.invalidKey");
     }
 
+    //Get user from request
     const user = ctx.state.user;
 
+    //Create Charge using Stripe Charge API, with provided token
     const charge = await stripe.charges.create({
-      amount: membership.price * 100,
+      amount: membership.price * 100, //Convert dollars to cents
       currency: "aud",
-      description: `Membership Payment`, //TODO: More details
+      description: `UQMC Membership Payment`, //TODO: More details
       source: token,
       receipt_email: user.email
     }).catch(error => {
-      //TODO: Proccess error?
       return error;
     });
 
     if (charge.status != "succeeded") {
-      //TODO: Format error?
-      return charge;
+      return ctx.badRequest(charge.raw.message);
     }
 
     const { id, currentMembershipLength } = user;
