@@ -47,11 +47,14 @@ module.exports = {
       return ctx.badRequest("stripe.invalidKey");
     }
 
+    const user = ctx.state.user;
+
     const charge = await stripe.charges.create({
       amount: membership.price * 100,
       currency: "aud",
       description: `Membership Payment`, //TODO: More details
-      source: token
+      source: token,
+      receipt_email: user.email
     }).catch(error => {
       //TODO: Proccess error?
       return error;
@@ -62,7 +65,6 @@ module.exports = {
       return charge;
     }
 
-    const user = ctx.state.user;
     const { id, currentMembershipLength } = user;
 
     //TODO: Lifetime membership override?
