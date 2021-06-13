@@ -84,6 +84,29 @@ module.exports = {
       delete updateData.password;
     }
 
+    const sensitive = [
+      'agreedLiabilityWaiver',
+      'agreedMembershipContract',
+      'currentMembershipLength',
+      'currentMembershipStartDate',
+      'swimTestCompleted',
+      'tapes',
+      'confirmed',
+      'blocked',
+      'resetPasswordToken',
+      'provider', 
+      'username',
+      'email',
+      'role',
+      'id',
+    ];
+
+    for (const field of sensitive) {
+      if (_.has(ctx.request.body, field)) {
+        delete updateData[field];
+      }
+    }
+
     const data = await strapi.plugins['users-permissions'].services.user.edit({ id }, updateData);
 
     ctx.send(sanitizeUser(data));

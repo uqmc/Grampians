@@ -1,0 +1,30 @@
+{
+  "connection": "default",
+  "collectionName": "",
+  "info": {
+    "name": "Membership Log",
+    "description": ""
+  },
+  "options": {
+    "timestamps": true,
+    "populateCreatorFields": false
+  },
+  "attributes": {
+    "user": {
+      "model": "user",
+      "plugin": "users-permissions",
+      "configurable": false
+    },
+    "membership": {
+      "model": "membership",
+      "plugin": "grampians",
+      "configurable": false
+    },
+    "receipt": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "configurable": false
+    }
+  }
+}

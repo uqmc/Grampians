@@ -7,6 +7,42 @@
         "config": {
           "policies": []
         }
+      },
+      {
+        "method": "GET",
+        "path": "/stripe",
+        "handler": "Stripe.get",
+        "config": {
+          "policies": [
+            ["admin::hasPermissions", ["plugins::grampians.stripe.read"]]
+          ]
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/stripe",
+        "handler": "Stripe.update",
+        "config": {
+          "policies": [
+            ["admin::hasPermissions", ["plugins::grampians.stripe.update"]]
+          ]
+        }
+      },
+      {
+        "method": "GET",
+        "path": "/memberships",
+        "handler": "Membership.get",
+        "config": {
+          "policies": []
+        }
+      },
+      {
+        "method": "PUT",
+        "path": "/memberships/pay",
+        "handler": "Membership.pay",
+        "config": {
+          "policies": []
+        }
       }
     ]
   }
